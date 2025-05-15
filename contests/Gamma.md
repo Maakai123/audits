@@ -5,6 +5,7 @@
 ### [Info-01] Incorrect Tick Rounding for Negative Ticks in `getRoundedTargetTick()` and `getRoundedCurrentTick()`
 
 **Description**
+
 In the `TickLibrary`, the `getRoundedTargetTick()` and `getRoundedCurrentTick()` functions incorrectly round ticks for `token0` orders (`isToken0 = true`) in negative tick ranges. Specifically:
 
 - `getRoundedTargetTick` rounds negative `targetTick` downward (more negative), when it should round upward (less negative) to ensure it’s above the `currentTick`.
@@ -12,4 +13,5 @@ In the `TickLibrary`, the `getRoundedTargetTick()` and `getRoundedCurrentTick()`
 - As a result, users cannot place limit orders in negative tick ranges for `token0`, leading to transaction failures and loss of functionality.
 
 **Recommendation**
+
 Adjust the rounding logic in `getRoundedTargetTick()` and `getRoundedCurrentTick()` to align with order direction

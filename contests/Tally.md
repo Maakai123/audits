@@ -4,9 +4,11 @@
 ### [Low-01] quorum in `_getProposalDetails()` is using current blocktimestamp gotten from `clock()` instead of proposal's snapshot
 
 **Summary**
+
 The `AutoDelegateOpenZeppelinGovernor` contract incorrectly calculates the quorum for governance proposals by using the current blocktimestamp gotten from `clock()` value instead of the proposal's snapshot timepoint. This allows attackers to manipulate governance outcomes by minting/burning tokens or changing their delegation after a proposal is created
 
 **Finding Description**
+
 The `_getProposalDetails()` function calculates the quorum for a proposal using the current `clock()` value instead of the proposal's snapshot timepoint. This violates the governance system's assumption that quorum calculations should be based on the state of the system at the time the proposal was created
 
 ```solidity
@@ -38,4 +40,5 @@ Quorum = `50% of 250 = 125`. -The proposal only has 100 "For" votes (Alice’s v
 The proposal is wrongly rejected because the quorum check was based on the current state (`250` voting power) instead of the snapshot state (`150` voting power).
 
 **Recommendation**
+
 Modify the quorum calculation to use the proposal's snapshot block instead of the current block returned by `clock()`. Update the `_getProposalDetails()` function to pass the proposal's snapshot block to `quorum()`

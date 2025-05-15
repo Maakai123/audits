@@ -4,6 +4,7 @@
 ### [Medium-01] Incorrect Token Amount Adjustment in `updateParticipation`
 
 **Summary**
+
 The `updateParticipation` function adjusts the user's total token commitment (`userTokensByLaunchGroup`) using currency amounts instead of token deltas. This leads to incorrect calculations, potential underflows, and invalid token tracking
 
 **Vulnerability Details**
@@ -35,11 +36,14 @@ But the problem is that the `_userTokensByLaunchGroup` mapping is meant to recor
 You cannot subtract or add a currency delta (calculated as `prevInfo.currencyAmount - newCurrencyAmount`) from a token amount, because these two quantities are not directly comparable.
 
 **Impact**
+
 This can lead to underflows, incorrect total token tracking, and ultimately an invalid record of the user’s token commitment
 
 **Recommendations**
+
 The function should adjust the user's token commitment based on the difference in token amounts, not the difference in currency amounts
 
 **Code Snippets**
+
 https://github.com/sherlock-audit/2025-02-rova/blob/main/rova-contracts/src/Launch.sol#L361
 https://github.com/sherlock-audit/2025-02-rova/blob/main/rova-contracts/src/Launch.sol#L374

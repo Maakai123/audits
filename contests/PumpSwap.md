@@ -3,4 +3,4 @@
 
 Findings are private as it was a private contest under NDA
 
-![alt text](images/image.png)
+![alt text](../images/image.png)

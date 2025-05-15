@@ -4,6 +4,7 @@
 ### [Medium-01] Griefing Attack via L1 Operation Queue
 
 **Finding description and impact**
+
 The `StakingManager` contract is vulnerable to a greifing attack due to lack of limits on the size of `_pendingDeposits` and `_pendingWithdrawal` queues, which stores L1Operation structs for deposits and withdrawal operations respectively.
 
 These queues are populated by public functions `stake()` and `queueWithdrawal()` accessible to any user(or whitelisted users if whitelistEnabled is true) and by operator admin functions like `queueL1Operations()`, and `redelegateWithdrawnHYPE()`.
@@ -24,5 +25,6 @@ While operators can process batches using the batchSize parameter, clearing larg
 4. If the queue grows large enough, the gas cost exceeds the block gas limit (e.g., 30M on Ethereum), preventing operators from processing the queue, stalling the system.
 
 **Recommended mitigation steps**
+
 To address the griefing attack, the best approach combines a queue size limit with a dynamic minimum operation size to prevent unbounded queue growth and deter small, spammy operations while maintaining usability for legitimate users
 

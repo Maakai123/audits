@@ -4,6 +4,7 @@
 ### [Info-01] Potential DOS on `getAllocatedSets()` function
 
 **Summary**
+
 The `getAllocatedSets()` and related view functions are vulnerable to DOS attacks due to unbounded loops over state variables that can be manipulated by operators using the `modifyAllocation()` function. A malicious operator can inflate the allocatedSets array, causing legitimate calls to these functions to run out of gas.
 
 ```solidity
@@ -24,7 +25,9 @@ function getAllocatedSets(address operator) external view returns (OperatorSet[]
 3. When a legitimate user calls `getAllocatedSets(operator)`, the function loops through the inflated array, consuming excessive gas and reverting.
 
 **Impact Explanation**
+
 DOS on `getAllocatedSets()`
 
 **Recommendation**
+
 Add pagination to limit loop iterations per call. Restrict how often operators can call `modifyAllocations()` (e.g., cooldown periods).
