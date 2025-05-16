@@ -18,7 +18,9 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 ### Code4rena
 | Contest | Category | Report |
 | -------- | ------- |  -------- |
-| [Kinetiq](https://code4rena.com/audits/2025-04-kinetiq) | Liquid Staking | [source](contests/Kinetiq.md)
+| [Kinetiq](https://code4rena.com/audits/2025-04-kinetiq) | Liquid Staking | [source](contests/Kinetiq.md) |
+| [Cabal Liquid Staking Token](https://code4rena.com/audits/2025-04-cabal-liquid-staking-token) | Liquid Staking | [source](contests/cabal.md)
+
 
 
 ### Sherlock
