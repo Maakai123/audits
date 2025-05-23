@@ -8,24 +8,24 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 ### 2025
 
 ### Cantina
-| Contest | Category | Report | Language |
+| Contest | Category | Language | Report |
 | -------- | ------- |  -------- | -------- | 
-| [Tally]() | Liquid Staking Governance Token | [source](contests/Tally.md) | Solidity |
-| [PumpSwap](https://cantina.xyz/competitions/19c5a5a6-f68d-4da8-b185-3f28c7f97bc1) | AMM |[source](contests/PumpSwap.md)| Rust |
-| [Gamma Strategies](https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1) | Uniswap v4 | [source](contests/Gamma.md) | Solidity |
-[EigenLayer](https://cantina.xyz/competitions/e7af4986-183d-4764-8bd2-1d6b47f87d99) | Staking | [source](contests/Eigenlayer.md) | Solidity |
+| [Tally]() | Liquid Staking Governance Token | Solidity | [source](contests/Tally.md) |
+| [PumpSwap](https://cantina.xyz/competitions/19c5a5a6-f68d-4da8-b185-3f28c7f97bc1) | AMM | Rust | [source](contests/PumpSwap.md)|
+| [Gamma Strategies](https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1) | Uniswap v4 |  Solidity | [source](contests/Gamma.md) |
+[EigenLayer](https://cantina.xyz/competitions/e7af4986-183d-4764-8bd2-1d6b47f87d99) | Staking |  Solidity | [source](contests/Eigenlayer.md) |
 | [LiquityV2](https://cantina.xyz/competitions/d86632df-ab33-4448-8198-64955eae6712) | CDP | Solidity | [source](contests/LiquityV2.md)
 
 ### Code4rena
-| Contest | Category | Report | Language |
+| Contest | Category | Language | Report |
 | -------- | ------- |  -------- | -------- |
-| [Kinetiq](https://code4rena.com/audits/2025-04-kinetiq) | Liquid Staking | [source](contests/Kinetiq.md) | Solidity
-| [Cabal Liquid Staking Token](https://code4rena.com/audits/2025-04-cabal-liquid-staking-token) | Liquid Staking | [source](contests/cabal.md) | Move
+| [Kinetiq](https://code4rena.com/audits/2025-04-kinetiq) | Liquid Staking |  Solidity | [source](contests/Kinetiq.md) |
+| [Cabal Liquid Staking Token](https://code4rena.com/audits/2025-04-cabal-liquid-staking-token) | Liquid Staking |  Move |[source](contests/cabal.md) |
 
 
 
 ### Sherlock
-| Contest | Category | Report | Language |
+| Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
 | [Yieldoor](https://audits.sherlock.xyz/contests/791/report) | Yield Farming | [source](contests/Yieldoor.md)| Solidity |
 | [Rova](https://audits.sherlock.xyz/contests/498/report) | Token Launchpad| [source](contests/Rova.md) | Solidity
