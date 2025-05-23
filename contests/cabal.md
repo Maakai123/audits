@@ -1,7 +1,7 @@
 ## Cabal Liquid Staking Token
 [Contest Details](https://code4rena.com/audits/2025-04-cabal-liquid-staking-token)
 
-### [Medium-01] Insufficient slippage protection in LP reward compounding
+### [Low-01] Insufficient slippage protection in LP reward compounding
 
 **Finding description and impact**
 

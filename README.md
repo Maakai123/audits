@@ -14,6 +14,7 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 | [PumpSwap](https://cantina.xyz/competitions/19c5a5a6-f68d-4da8-b185-3f28c7f97bc1) | AMM |[source](contests/PumpSwap.md)| Rust |
 | [Gamma Strategies](https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1) | Uniswap v4 | [source](contests/Gamma.md) | Solidity |
 [EigenLayer](https://cantina.xyz/competitions/e7af4986-183d-4764-8bd2-1d6b47f87d99) | Staking | [source](contests/Eigenlayer.md) | Solidity |
+| [LiquityV2](https://cantina.xyz/competitions/d86632df-ab33-4448-8198-64955eae6712) | CDP | Solidity | [source](contests/LiquityV2.md)
 
 ### Code4rena
 | Contest | Category | Report | Language |
