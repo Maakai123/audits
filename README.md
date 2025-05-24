@@ -16,7 +16,7 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 [EigenLayer](https://cantina.xyz/competitions/e7af4986-183d-4764-8bd2-1d6b47f87d99) | Staking | Solidity | [source](contests/Eigenlayer.md) |
 | [LiquityV2](https://cantina.xyz/competitions/d86632df-ab33-4448-8198-64955eae6712) | CDP | Solidity | [source](contests/LiquityV2.md) |
 | [Infinifi](https://cantina.xyz/competitions/2ac7f906-1661-47eb-bfd6-519f5db0d36b) | Yield Farming | Solidity | [source](contests/Infinifi.md) |
-| [Metropolis](https://cantina.xyz/competitions/076935b1-2706-48c6-bf0a-b3656aa24194) | Liquidity Management | Solidity | [source](contests/Metropolois.md) |
+| [Metropolis](https://cantina.xyz/competitions/076935b1-2706-48c6-bf0a-b3656aa24194) | Liquidity Management | Solidity | [source](contests/Metropolis.md) |
 
 ### Code4rena
 | Contest | Category | Language | Report |
