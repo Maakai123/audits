@@ -25,8 +25,7 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 | -------- | ------- |  -------- | -------- |
 | [Kinetiq](https://code4rena.com/audits/2025-04-kinetiq) | Liquid Staking | Solidity | [source](contests/Kinetiq.md) |
 | [Cabal Liquid Staking Token](https://code4rena.com/audits/2025-04-cabal-liquid-staking-token) | Liquid Staking |  Move |[source](contests/cabal.md) |
-
-
+| [Upside](https://code4rena.com/audits/2025-05-upside) | Bonding Curve |  Solidity |[source](contests/upside.md) |
 
 ### Sherlock
 | Contest | Category | Language | Report |
