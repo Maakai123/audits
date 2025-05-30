@@ -1,5 +1,5 @@
 ## Upside
-[Contest details](https://code4rena.com/audits/2025-05-upside/submissions)
+[Contest details](https://code4rena.com/audits/2025-05-upside)
 
 ### [Low-01] Rounding down of tiny swaps yields zero fee but alters reserves
 

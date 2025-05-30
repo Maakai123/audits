@@ -32,3 +32,9 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 | -------- | ------- |  -------- | --------
 | [Yieldoor](https://audits.sherlock.xyz/contests/791/report) | Yield Farming | Solidity | [source](contests/Yieldoor.md) |
 | [Rova](https://audits.sherlock.xyz/contests/498/report) | Token Launchpad|  Solidity | [source](contests/Rova.md) |
+
+
+### Codehawks
+| Contest | Category | Language | Report |
+| -------- | ------- |  -------- | --------
+| [RAAC](https://codehawks.cyfrin.io/c/2025-02-raac) | RWA Tokenization | Solidity | [source](contests/raac.md) |
