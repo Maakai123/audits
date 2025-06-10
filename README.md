@@ -18,7 +18,10 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 | [Infinifi](https://cantina.xyz/competitions/2ac7f906-1661-47eb-bfd6-519f5db0d36b) | Yield Farming | Solidity | [source](contests/Infinifi.md) |
 | [Metropolis](https://cantina.xyz/competitions/076935b1-2706-48c6-bf0a-b3656aa24194) | Liquidity Management | Solidity | [source](contests/Metropolis.md) |
 | [Mighty Finance](https://cantina.xyz/competitions/616d8bb4-16ce-4ca9-9ce9-5b99d6e146ef) | Liquidity Management  | Solidity | [source](contests/mightyfinance.md) | 
-| [Mezo](https://cantina.xyz/code/e757364c-1f68-4ec5-94f6-c6b3c2e80c6d/README.md) | Lending   | Solidity, Go | [source](contests/mezo.md) | 
+| [Mezo](https://cantina.xyz/code/e757364c-1f68-4ec5-94f6-c6b3c2e80c6d) | Lending   | Solidity, Go | [source](contests/mezo.md) | 
+| [Stability DAO](hhttps://cantina.xyz/competitions/e1c0be8d-0c3d-485a-a446-a582beb120b1) | Yield Aggregator  | Solidity | [source](contests/stability.md) | 
+| [Primev](https://cantina.xyz/competitions/e92be0b9-b4f2-4bf2-9544-ae285fcfc02d) | MEV Relay/Commitment-layer   | Solidity | [source](contests/primev.md) | 
+
 
 ### Code4rena
 | Contest | Category | Language | Report |

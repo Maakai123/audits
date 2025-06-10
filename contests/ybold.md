@@ -26,6 +26,7 @@ No term accounts for `COLL.balanceOf(address(this))` after `claim()` but before 
 - `harvest()` runs before `tend()`, triggering a report that uses `estimatedTotalAssets()`.
 
 **External Pre-conditions**
+
 None
 
 **Attack Path**
