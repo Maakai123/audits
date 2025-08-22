@@ -1,8 +1,8 @@
-## About 0x15
+## About 0xPrince
 
 I'm an independent Web3 Security Researcher competing on Cantina, Sherlock, C4, and Codehawks. Skilled in Rust, Go, Move, Solidity, and Cairo, I specialize in identifying vulnerabilities in blockchain protocols.
 
-For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_eth).
+For collabs or security audits, reach out on X [@maakayjunior](https://x.com/maakayjunior).
 
 ## Contests
 ### 2025
@@ -42,3 +42,4 @@ For collabs or security audits, reach out on X [@0x15_eth](https://x.com/0x15_et
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
 | [RAAC](https://codehawks.cyfrin.io/c/2025-02-raac) | RWA Tokenization | Solidity | [source](contests/raac.md) |
+
