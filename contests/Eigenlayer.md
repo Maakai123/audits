@@ -1,33 +1,33 @@
-## EigenLayer
-[Contest Details](https://cantina.xyz/competitions/e7af4986-183d-4764-8bd2-1d6b47f87d99)
+## aave-aptos
+[Contest Details](https://cantina.xyz/code/ad445d42-9d39-4bcf-becb-0c6c8689b767/overview)
 
-### [Info-01] Potential DOS on `getAllocatedSets()` function
+### [MEDIUM-01] Lack of Freshness Check Allows Stale Oracle Data in "Liquidation Logic"
 
 **Summary**
 
-The `getAllocatedSets()` and related view functions are vulnerable to DOS attacks due to unbounded loops over state variables that can be manipulated by operators using the `modifyAllocation()` function. A malicious operator can inflate the allocatedSets array, causing legitimate calls to these functions to run out of gas.
+The aave_pool::liquidation_logic module lacks staleness detection for asset prices retrieved from the oracle::get_asset_price function, allowing the use of outdated prices during liquidation calculations. This could lead to incorrect collateral and debt valuations, potentially causing unfair liquidations or financial losses.
 
-```solidity
-function getAllocatedSets(address operator) external view returns (OperatorSet[] memory) {
-    uint256 length = allocatedSets[operator].length();  // @audit - Can be manipulated
-    OperatorSet[] memory operatorSets = new OperatorSet[](length);
-    for (uint256 i = 0; i < length; i++) {  // @auditt - Gas-intensive loop
-        operatorSets[i] = OperatorSetLib.decode(allocatedSets[operator].at(i));
-    }
-    return operatorSets;
-}
-```
 
-**Attack Path**
 
-1. An malicious operator calls `modifyAllocations` repeatedly, adding many allocations to different operator sets. Each allocation increases the size of `allocatedSets[operator]`
-2. The allocatedSets array grows arbitrarily large (e.g., thousands of entries).
-3. When a legitimate user calls `getAllocatedSets(operator)`, the function loops through the inflated array, consuming excessive gas and reverting.
+The liquidation_logic module in the Aave protocol relies on the oracle::get_asset_price function to fetch prices for collateral and debt assets during the liquidation_call function. These prices are used to calculate the amount of collateral to liquidate and debt to cover, as well as to assess the user's health factor. However, the oracle does not validate the freshness of price data, accepting prices that are significantly outdated (e.g., 24 hours old).
 
-**Impact Explanation**
+Liquidations rely on accurate, up-to-date asset prices to ensure that the correct amount of collateral is seized to cover the debt. Stale prices can lead to over- or under-liquidation, misrepresenting the financial state of the protocol and users.
+
+Users may be unfairly liquidated based on outdated market conditions, or liquidators could exploit stale prices to gain excessive collateral at a lower cost.
+
+
+
+## Impact Explanation
+
+Financial Loss: Incorrect price data can lead to over-liquidation, where users lose more collateral than necessary, or under-liquidation, where the protocol fails to recover sufficient debt, potentially creating bad debt. Exploitation Potential: Liquidators could exploit stale prices during market volatility to liquidate positions at a profit, undermining user trust and protocol fairness.
+
+
+## Recommendation
+The liquidation_logic module should implement staleness detection for price data. The recommended approach is to add timestamp validation in the oracle::get_asset_price function to ensure prices are fresh.
 
 DOS on `getAllocatedSets()`
 
 **Recommendation**
+
 
 Add pagination to limit loop iterations per call. Restrict how often operators can call `modifyAllocations()` (e.g., cooldown periods).
