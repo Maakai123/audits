@@ -15,6 +15,7 @@ Protection Against Manipulation: The absence of slippage checks allows attackers
 
 Reliability: External contracts relying on predictable deposit/withdrawal outcomes may fail if the share price changes unexpectedly, breaking integration reliability.
 
+```solidity
 function _deposit(address caller, address receiver, uint assets, uint shares) internal override {
     WrappedMetaVaultStorage storage $ = _getWrappedMetaVaultStorage();
     if ($.isMulti) {
@@ -32,8 +33,10 @@ function _deposit(address caller, address receiver, uint assets, uint shares) in
         super._deposit(caller, receiver, assets, shares);
     }
 }
+```
 The function mints shares without checking if they meet a minimum threshold, leaving users vulnerable to receiving fewer shares if the metaVault’s share price is manipulated.
 
+```solidity
 function _withdraw(address caller, address receiver, address owner, uint assets, uint shares) internal override {
     WrappedMetaVaultStorage storage $ = _getWrappedMetaVaultStorage();
     if ($.isMulti) {
@@ -55,6 +58,7 @@ function _withdraw(address caller, address receiver, address owner, uint assets,
         super._withdraw(caller, receiver, owner, assets, shares);
     }
 }
+```
 The function withdraws assets without ensuring the actual assets received meet a minimum threshold, exposing users to losses if the share price drops.
 
 ## Impact Explanation
@@ -63,4 +67,5 @@ Financial Loss: Users can lose significant value due to receiving fewer shares o
 **Recommendation**
 
 To fix the missing slippage control, modify the deposit and withdraw functions to include minShares and minAssets parameters, ensuring users receive at least the expected outputs.
+
 
