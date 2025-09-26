@@ -21,7 +21,7 @@ For collabs or security audits, reach out on X [@maakayjunior](https://x.com/maa
 | [StabilityDAO](https://cantina.xyz/competitions/e1c0be8d-0c3d-485a-a446-a582beb120b1) | Yield Aggregator  | Solidity | [source](contests/stability.md) | 
 
 | [Telcoin](https://cantina.xyz/code/26d5255b-6f68-46cf-be55-81dd565d9d16/overview) | Blockchain/DLT   | Rust | [source](contests/Telcoin.md) | 
-| [Aave-aptos](https://cantina.xyz/code/ad445d42-9d39-4bcf-becb-0c6c8689b767/overview) | Lending   | Move | [source](contests/aptos.md) | 
+| [Aave-aptos](https://cantina.xyz/code/ad445d42-9d39-4bcf-becb-0c6c8689b767/overview) | Lending   | Move | [source](contests/Aave-Aptos.md) | 
 
 
 ### Code4rena
