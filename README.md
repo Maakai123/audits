@@ -25,23 +25,24 @@ For collabs or security audits, reach out on X [@maakayjunior](https://x.com/maa
 
 
 ### Code4rena
+Username: OxPrincexyz
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | -------- |
-| [Kinetiq](https://code4rena.com/audits/2025-04-kinetiq) | Liquid Staking | Solidity | [source](contests/Kinetiq.md) |
-| [Cabal Liquid Staking Token](https://code4rena.com/audits/2025-04-cabal-liquid-staking-token) | Liquid Staking |  Move |[source](contests/cabal.md) |
-| [Upside](https://code4rena.com/audits/2025-05-upside) | Bonding Curve |  Solidity |[source](contests/upside.md) |
+
+
+
 
 ### Sherlock
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
-| [Yieldoor](https://audits.sherlock.xyz/contests/791/report) | Yield Farming | Solidity | [source](contests/Yieldoor.md) |
-| [Rova](https://audits.sherlock.xyz/contests/498/report) | Token Launchpad|  Solidity | [source](contests/Rova.md) |
-| [LayerEdge](https://audits.sherlock.xyz/contests/952/report) | Staking |  Solidity | [source](contests/LayerEdge.md) |
-| [Yearn yBOLD](https://audits.sherlock.xyz/contests/977/report) | Yield Optimizer|  Solidity | [source](contests/ybold.md) |
 
-### Codehawks
+
+### Hackenproof
+Username: oxprince
+
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
+| [GTE](https://code4rena.com/audits/2025-07-gte-spot-clob-and-router) | AMM | Move | [source](contests/Gte.md) |
 
 
 
