@@ -28,7 +28,7 @@ For collabs or security audits, reach out on X [@maakayjunior](https://x.com/maa
 Username: OxPrincexyz
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | -------- |
-
+| [GTE](https://code4rena.com/audits/2025-07-gte-spot-clob-and-router) | Decentralized Exchange | Solidity | [source](contests/Gte.md) |
 
 
 
@@ -42,7 +42,8 @@ Username: oxprince
 
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
-| [GTE](https://code4rena.com/audits/2025-07-gte-spot-clob-and-router) | AMM | Move | [source](contests/Gte.md) |
+| [Suidex](https://dashboard.hackenproof.com/user/reports/SUIDEXCA-47) | AMM | Move | [source](contests/Suidex.md) |
+
 
 
 
