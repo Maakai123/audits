@@ -1,6 +1,6 @@
 ## About 0xPrince
 
-I'm an independent Web3 Security Researcher competing on Cantina, Sherlock, C4, and Codehawks. Skilled in Rust, Go, Move, Solidity, and Cairo, I specialize in identifying vulnerabilities in blockchain protocols.
+I'm an independent Web3 Security Researcher competing on Cantina, Sherlock, C4, HackenProof and Immunify. i find vulnerabilies  in Rust,  Move, and Solidity codebases.
 
 For collabs or security audits, reach out on X [@maakayjunior](https://x.com/maakayjunior).
 
@@ -52,6 +52,7 @@ Username: oxprince
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
 | [Suidex](https://dashboard.hackenproof.com/user/reports/SUIDEXCA-47) | AMM | Move | [source](contests/Suidex.md) |
+
 
 
 
