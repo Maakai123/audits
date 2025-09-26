@@ -1,5 +1,5 @@
 ## telcoin-network
-[Contest Details]([https://cantina.xyz/competitions/aaf79192-6ea7-4b1e-aed7-3d23212dd0f1](https://cantina.xyz/code/26d5255b-6f68-46cf-be55-81dd565d9d16/overview))
+[Contest Details](https://cantina.xyz/code/26d5255b-6f68-46cf-be55-81dd565d9d16/overview)
 
 
 ### [Medium-01] Base Fee Validation Bypass
@@ -32,3 +32,4 @@ fn validate_basefee(&self, base_fee: Option<u64>) -> BatchValidationResult<()> {
     Ok(())  
 }
 ```
+
