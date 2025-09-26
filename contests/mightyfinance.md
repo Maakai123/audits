@@ -1,129 +1,174 @@
 ## Mighty Finance
 [Contest details](https://cantina.xyz/competitions/616d8bb4-16ce-4ca9-9ce9-5b99d6e146ef)
 
-### [High-01] Zero-Slippage Guard Lets Sandwich Bots Drain `reducePosition`
+### [High-01] In setReward(), block.timestamp is used instead of startTime at lastUpdate
 
 **Description**
 
-Every invocation of `ShadowRangePositionImpl:reducePosition` uses a zero slippage bound `(amountOutMinimum = 0)`. This means the swap will never revert even if the pool price moves drastically against the user. An MEV-powered sandwich attack can:
+In setReward rewardData[rewardToken].lastUpdateTime is set to block.timestamp instead of startTime. This causes the reward calculation to include the period between block.timestamp and startTime when rewards should not be distributed.
 
-1. Front-run the user’s `reducePosition` transaction by swapping a small amount to push the pool price one tick (or more).
-2. Let the victim’s reducePosition execute (it won’t revert because `minOut = 0`).
-3. Back-run by swapping back, pocketing the price difference.
-
-Over time, each reducePosition call silently loses value, draining user funds under the guise of a normal rebalance.
-
-**Recommendation**
-
-Introduce slippage bounds on every swap
-
-
-### [Low-01] Incorrect Reward Distribution Due to `xShadow`/`x33` Wrapping Lock in `ShadowRangePositionImpl`
-**Description**
-
-The `_claimRewards` function in `ShadowRangePositionImpl` skips `xShadow` reward distribution if the `x33` contract is locked (`IShadowX33(x33).isUnlocked() returns false`), as it neither wraps `xShadow` into `x33` nor transfers it directly.
-
-During `x33`’s epoch-based lock periods (e.g., 12 hours), users calling `claimRewards` or `closePosition` receive no `xShadow`/`x33` rewards, despite earning them, with no error or queuing mechanism to ensure later delivery.
-
-This silent failure leads to underpayment, and there’s no guaranteed way to recover rewards unless users retry during an unlocked period.
-
-**Scenario**
-
-1. `x33` enters a lock period, so `isUnlocked()` returns `false`.
-2. A user triggers `claimRewards` (via the vault) or `closePosition`, which calls `_claimRewards`.
-3. For xShadow rewards, the function skips processing, transferring no xShadow or x33 to the vault.
-4. The user receives other rewards (if any) but misses `xShadow`/`x33`, with no notification of the loss.
-
-**Recommendation**
-
-To prevent reward loss during `x33` lock periods, the protocol should enhance _claimRewards handling queue unclaimed rewards. If `isUnlocked()` is `false`, store xShadow balances in a mapping or event log for later claiming
-
-### [Low-02] Price oracle staleness in `PrimaryPriceOracle` can lead to incorrect debt ratios
-
-**Description**
-
-The `PrimaryPriceOracle` contract relies on Pyth price feeds with `maxPriceAge` of 1 hour, allowing prices within this window to be considered valid. 
-
-The `ShadowRange` contract uses these prices to calculate debt ratios for critical operations like opening closing and liquidating positions.
-
-During this high market volatility or oracle downtime, a price just within 1-hour window (e.g 59mins old) could be stale leading to incorrect debt ratio calculations. 
-
-This can allow attackers to open over leveraged positions or avoid liquidations when positions are underwater, resulting in significant bad debt for the protocol
-
-**Attack Scenario**
-
-1. During high volatility period, the price oracle fails to update, leaving a stale high price for a token (for example 100usd, 59 minutes old)
-2. An attacker opens a leveraged position in `ShadowRangeVault`, borrowing heavily. The stale price inflates the position value, keeping the debt ratio below the `liquidationDebtRatio` (86%)
-3. The market price drops (e.g., to $50), but the stale oracle price delays liquidation
-4. The attacker closes the position or withdraws profits, leaving the protocol with undercollateralized debt
-
-As a result there are significant financial losses due to unliquidated, underwater positions, potentially causing protocol insolvency
-
-**Recommendation**
-
-Lower the `maxPriceAge` to a shorter window (e.g., 5-15 minutes) or adjust dynamically based on market volatility.
-
-
-### [Info-01] Credit Ledger Inflation on Over-Repayment
-
-**Description**
-
-In `LendingPool.repay(address onBehalfOf, uint256 debtId, uint256 amount)`, the contract credits the caller’s borrowing power before clamping amount to their actual outstanding debt. Concretely, the code does:
-
-```solidity
-// 1) Grant full credit upfront
-credits[reserveId][msg.sender] = credits[reserveId][msg.sender].add(amount);
-
-// 2) Clamp repayment and reduce debt
-if (amount > debtPosition.borrowed) {
-    amount = debtPosition.borrowed;
-}
-
-debtPosition.borrowed = debtPosition.borrowed.sub(amount);
+```rust
+rewardData[rewardToken].lastUpdateTime = block.timestamp;
 ```
 
-An attacker who owes, say, 1 ETH can call `repay(..., 2 ETH)`. Their debt is reduced to zero, but their credit balance increases by the full 2 ETH, leaving 1 ETH of “phantom” credit unbacked by any collateral.
+**Recommendation**
+To fix the bug, set lastUpdateTime to startTime to ensure reward calculations begin at the intended start time:
 
-Repeating this inflates borrowing power arbitrarily and allows over-borrowing, undermining the protocol’s core collateralization assumptions.
+```rust
+rewardData[rewardToken].lastUpdateTime = startTime;
+```
+
+
+
+### [High-02] Lack of Slippage Protection in Swaps leads to financial losses
+
+**Description**
+Inside the ShadowRangePositionImpl contract the _swapTokenExactInput function performs token swaps via a Uniswap V3-style router (IShadowSwapRouter). The function accepts an amountOutMinimum parameter, which specifies the minimum amount of output tokens expected from the swap. If the actual output is less than amountOutMinimum, the swap reverts, providing slippage protection. However, in critical functions like reducePosition, amountOutMinimum is explicitly set to 0, disabling this protection. This allows swaps to execute even if the output is negligible, exposing the contract to high slippage in low-liquidity pools or manipulated markets.
+
+Relevant Code (in reducePosition)
+
+```rust
+if (amount0ToSwap > 0) {
+    _swapTokenExactInput(token0, token1, amount0ToSwap, 0);
+}
+if (amount1ToSwap > 0) {
+    _swapTokenExactInput(token1, token0, amount1ToSwap, 0);
+}
+(_swapTokenExactInput)
+```
+
+
+```rust
+function _swapTokenExactInput(address tokenIn, address tokenOut, uint256 amountIn, uint256 amountOutMinimum)
+    internal
+    returns (uint256 amountOut)
+{
+    address router = IAddressRegistry(IVault(vault).addressProvider()).getAddress(AddressId.ADDRESS_ID_SHADOW_ROUTER);
+    IERC20(tokenIn).approve(router, amountIn);
+    amountOut = IShadowSwapRouter(router).exactInputSingle(
+        IShadowSwapRouter.ExactInputSingleParams({
+            tokenIn: tokenIn,
+            tokenOut: tokenOut,
+            tickSpacing: tickSpacing,
+            recipient: address(this),
+            deadline: block.timestamp,
+            amountIn: amountIn,
+            amountOutMinimum: amountOutMinimum,
+            sqrtPriceLimitX96: 0
+        })
+    );
+}
+```
 
 **Recommendation**
+Set amountOutMinimum to a value based on an expected output, adjusted for a reasonable slippage tolerance (e.g., 1-2%).
 
-Only credit the actual amount paid. Move the credit‐update to after the clamp
 
 
-### [Info-02] Lack of Access Control on `newDebtPosition()` in `LendingPool`
+
+
+
+### [Medium-01] Config does not update the currentBorrowingRate LendingPool::setBorrowingRateConfig
+
 
 **Description**
 
-The `newDebtPosition()` function in the `LendingPool` contract is external and lacks access control, allowing any user (EOA or contract) to create debt positions.
+The setBorrowingRateConfig does not call updateState and updateInterestRates the new borrowing rate does not take effect immediately and only updates when another action (e.g., deposit, borrow, or repay) triggers a state update.
 
-This permissionless access enables potential spam or misuse, leading to bloated storage, unnecessary gas costs, and the creation of invalid debt positions that cannot be used by whitelisted vault contracts for borrowing.
+The setBorrowingRateConfigfunction in the LendingPool contract is responsible for updating the borrowing rate configuration, which defines how interest rates scale with the reserve’s utilization rate . The function sets parameters such as utilizationA, borrowingRateA, utilizationB, borrowingRateB, and maxBorrowingRate to create a piecewise linear curve for the borrowing rate. However, the function does not call updateState or updateInterestRates, which are necessary to apply the new configuration to the reserve’s currentBorrowingRate. As a result, the new borrowing rate does not take effect immediately and only updates when another action (e.g., deposit, borrow, or repay) triggers a state update. This delay can lead to the protocol using outdated interest rates, potentially causing financial inefficiencies or misaligned incentives.
 
-This disrupts the intended integration with vault contracts (e.g., `ShadowRangePositionImpl`) and could facilitate denial-of-service (DoS) attacks.
+**Impact Explanation**
+The protocol will actually have no control of when the new borrowingRateConfig will be actually activated. For the meantime between the s etBorrowingConfigRate until the next action on the LendingPool which will update the interest rates (which is indefinite), the currentBorrowingRate that will be used will be the old one which was based on the previous borrowingRateConfig. This means that the protocol can lose funds since they will want for example for the current utilization rate to have 25% interest rate but instead they will have the previous 15% interest rate until someone update the state by deposit/borrow...
 
 **Recommendation**
 
-Restrict `newDebtPosition()` to be callable only by whitelisted vault contracts.
+To ensure the new borrowing rate configuration takes effect immediately, the setBorrowingRateConfig function should call updateState before updating the configuration and updateInterestRates after updating it. This ensures the reserve’s state (e.g., utilization rate) is current before applying the new config and that the currentBorrowingRate reflects the updated configuration immediately.
 
 
-### [Info-03] Incorrect Debt Position Ownership Can Break Borrow Functionality
+
+
+
+
+
+### [Low-01] Liquidation Fee Calculation Uses Integer Division, Leading to Precision Loss
 
 **Description**
+The liquidatePosition function calculates fees to be paid to a liquidationFeeRecipient and the caller (e.g., a liquidator). These fees are a percentage of the tokens reduced from the position (token0Reduced and token1Reduced).
 
-The `LendingPool` contract contains a critical flaw in the `newDebtPosition()` function, which sets the debt position’s owner to `_msgSender()`. 
+The fee calculations use integer division, which rounds down to the nearest whole number. This can lead to precision loss, where small fee amounts are rounded to zero, especially for low token amounts or low fee percentages. This results in:
 
-This allows any user to create a debt position, setting themselves as the owner. However, the borrow function requires the caller (`msg.sender`, expected to be a vault contract) to be the owner of the debt position. 
+No fees being collected for small positions or low-value tokens. Reduced incentives for liquidators, as caller fees may be zero. Potential accounting errors if the protocol expects non-zero fees.
 
-This ownership mismatch prevents vaults from borrowing on behalf of users, breaking the core borrowing functionality of the protocol.
 
-**Scenario**
+```rust
 
-1. A user (EOA) calls `newDebtPosition(reserveId)`, creating a debt position with `debtId` and `owner = user_address`.
-2. The user interacts with a vault (e.g., via `ShadowRangePositionImpl`) to open a leveraged position, which requires the vault to call `borrow(onBehalfOf, debtId, amount)`.
-3. The borrow function reverts with `Errors.VL_INVALID_DEBT_OWNER` because `msg.sender` (vault address) does not match `debtPosition.owner` (user address).
-4. As a result, the vault cannot borrow tokens, preventing the creation or management of leveraged positions.
-5. Maliciously, an attacker could repeatedly call `newDebtPosition()` to create unusable debt positions, disrupting vault operations or front-end functionality.
+function liquidatePosition(address caller)
+    external
+    onlyVault
+    returns (
+        uint128 liquidity,
+        uint256 token0Reduced,
+        uint256 token1Reduced,
+        uint256 token0Fees,
+        uint256 token1Fees,
+        uint256 token0Left,
+        uint256 token1Left
+    )
+{
+    // ... existing logic ...
+    LiquidationFeeVars memory vars = LiquidationFeeVars({
+        liquidationFee: IVault(vault).liquidationFee(), // e.g., 500 bps (5%)
+        liquidationCallerFee: IVault(vault).liquidationCallerFee(), // e.g., 100 bps (1%)
+        liquidationFeeRecipient: IVault(vault).liquidationFeeRecipient()
+    });
+
+    // Handle liquidation fees
+    if (token0Reduced > 0) {
+        token0Fees = token0Reduced * vars.liquidationFee / 10000; // Integer division
+        pay(token0, address(this), vars.liquidationFeeRecipient, token0Fees);
+
+        uint256 token0CallerFees = token0Fees * vars.liquidationCallerFee / 10000; // Integer division
+        if (token0CallerFees > 0) {
+            pay(token0, address(this), caller, token0CallerFees);
+        }
+
+        token0Reduced = token0Reduced - token0Fees - token0CallerFees;
+    }
+
+    if (token1Reduced > 0) {
+        token1Fees = token1Reduced * vars.liquidationFee / 10000; // Integer division
+        pay(token1, address(this), vars.liquidationFeeRecipient, token1Fees);
+
+        uint256 token1CallerFees = token1Fees * vars.liquidationCallerFee / 10000; // Integer division
+        if (token1CallerFees > 0) {
+            pay(token1, address(this), caller, token1CallerFees);
+        }
+
+        token1Reduced = token1Reduced - token1Fees - token1CallerFees;
+    }
+ .
+}
+
+```
+
+
+
 
 **Recommendation**
+erform calculations with higher precision by scaling intermediate results before division, reducing rounding errors.
 
-Modify `newDebtPosition()` to set the owner as the vault contract address instead of the user. Ensure that only vault contracts can create debt positions for their users.
+```rust
+if (token0Reduced > 0) {
+    token0Fees = (token0Reduced * vars.liquidationFee * 1e18) / 10000 / 1e18; // Scale up
+    token0Fees = token0Fees > 0 ? token0Fees : 1;
+    pay(token0, address(this), vars.liquidationFeeRecipient, token0Fees);
+
+    token0CallerFees = (token0Fees * vars.liquidationCallerFee * 1e18) / 10000 / 1e18;
+    token0CallerFees = token0CallerFees > 0 ? token0CallerFees : 1;
+    if (token0CallerFees > 0) {
+        pay(token0, address(this), caller, token0CallerFees);
+    }
+
+    token0Reduced = token0Reduced - token0Fees - token0CallerFees;
+}
+```
