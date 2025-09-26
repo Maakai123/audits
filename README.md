@@ -7,7 +7,15 @@ For collabs or security audits, reach out on X [@maakayjunior](https://x.com/maa
 ## Cantina username :  0xprincexyz
 
 
+## PRIVATE 
+
+## 2025
+
+XDEX  SOLANA 
+
+
 ## Contests
+
 ### 2025
 
 ### Cantina
@@ -43,6 +51,7 @@ Username: oxprince
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
 | [Suidex](https://dashboard.hackenproof.com/user/reports/SUIDEXCA-47) | AMM | Move | [source](contests/Suidex.md) |
+
 
 
 
