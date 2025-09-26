@@ -106,6 +106,7 @@ let next_isolation_mode_total_debt =
 public fun get_debt_ceiling_decimals(): u256 {
     DEBT_CEILING_DECIMALS
 }
+```
 The debt ceiling is expressed with 2 decimal places, so a ceiling of 100000 represents 1000.00 USD.
 
 Debt Ceiling Enforcement: The specification requires that the debt ceiling be a hard limit, with calculations rounding up to prevent any excess borrowing. The use of integer division violates this by allowing borrowing up to 10^(reserve_decimals - 2) - 1 units per transaction without detection.
@@ -222,6 +223,7 @@ Unfair liquidations if prices are artificially low.
 Implement Oracle Sentinel Module: Create a new oracle_sentinel module with functions to validate oracle health and manage operations during downtime or recovery.
 
 Add Staleness Checks: Modify get_asset_price_internal to validate Chainlink feed timestamps against a configurable staleness threshold.
+
 
 
 
