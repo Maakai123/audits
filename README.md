@@ -11,8 +11,7 @@ For collabs or security audits, reach out on X [@maakayjunior](https://x.com/maa
 
 ## 2025
 | PROTOCOL | Category | Language | Report |
-| -------- | ------- |  -------- | -------- |
-               
+| -------- | ------- |  -------- | -------- |               
 | XDEX-SOLANA  | AMM  |  RUST |  SOON |
 
 
@@ -53,6 +52,7 @@ Username: oxprince
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
 | [Suidex](https://dashboard.hackenproof.com/user/reports/SUIDEXCA-47) | AMM | Move | [source](contests/Suidex.md) |
+
 
 
 
