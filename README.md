@@ -52,6 +52,8 @@ Username: oxprince
 | Contest | Category | Language | Report |
 | -------- | ------- |  -------- | --------
 | [Suidex](https://dashboard.hackenproof.com/user/reports/SUIDEXCA-47) | AMM | Move | [source](contests/Suidex.md) |
+|[Dexlyn.md](https://dashboard.hackenproof.com/user/reports/DEXLYNCA-59) | Exchange | Move | [source](contests/Dexlyn.md) |
+
 
 
 
